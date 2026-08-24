@@ -53,12 +53,16 @@ dependencies {
     // 优盟广告 SDK 核心（已混淆）
     implementation files('libs/umad-core-2.7.8.aar')
 
-    // SDK 依赖的第三方广告源库（穿山甲/快手/百度/优量汇等）
-    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/adn')
+    // SDK 依赖的第三方广告源库（按需引入用到的平台，这里 demo 用穿山甲 + 瑞狮）
+    implementation files(
+        'libs/adn/CSJ_v7.4.2.0.aar',  // 穿山甲 (ST)
+        'libs/adn/OAID_v1.0.25.aar',  // OAID
+    )
+    implementation 'cn.vlion.inland:vlion-core-ec:7.00.81'  // 瑞狮 (RS)
 }
 ```
 
-> **注意**：广告 SDK 内部聚合了多家广告平台，集成时需要同时引入对应的第三方广告源 SDK（AAR 内 `compileOnly`，需在应用侧提供）。
+> **注意**：广告 SDK 内部聚合了多家广告平台（穿山甲/快手/百度/优量汇等），`ad_config.json` 里用到哪个平台，就引入对应平台的 SDK（AAR 内 `compileOnly`，需在应用侧提供）。用不到的平台无需引入，避免包体过大。
 
 ### 2. 配置广告位（assets/ad_config.json）
 
@@ -296,6 +300,11 @@ UMAD.init(this, adPosMap);   // 传入配置，多源用 ";" 分隔
 
 ### 4. 调试怎么看？
 调用 `ad.enableDebug()` 可打开调试日志，上线前移除即可。
+
+### 5. 启动报 ClassNotFoundException（找不到 XXXFileProvider）？
+这是**第三方平台 SDK 未引入**导致。SDK 的 manifest 会声明各平台用到的 FileProvider，但对应的平台 SDK 类需由你在应用侧引入。
+
+**解决**：按 `ad_config.json` 里用到的平台，把对应平台 SDK 加到依赖里。用不到的平台不要声明 provider 相关类。例如报 `com.qq.e.comm.GDTFileProvider` 找不到，说明你用了优量汇但没引入 GDT SDK（或反了）。
 
 ---
 
