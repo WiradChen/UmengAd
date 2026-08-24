@@ -35,8 +35,12 @@ dependencies {
     // 广告 SDK 核心（已混淆的 AAR，核心代码不开放）
     implementation files('libs/umad-core-2.7.8.aar')
 
-    // SDK 依赖的第三方广告源库（AAR 使用 compileOnly，需在应用侧提供）
-    implementation fileTree(include: ['*.jar', '*.aar'], dir: '../UMAD/AdnLibs')
+    // SDK 依赖的第三方广告源库（按需引入：demo 使用穿山甲 CSJ + 瑞狮 vlion）
+    // 注：AAR 内 compileOnly，需在应用侧提供对应平台 SDK
+    implementation files(
+        '../../UMAD/AdnLibs/CSJ_v7.4.2.0.aar',   // 穿山甲 (ST)
+        '../../UMAD/AdnLibs/OAID_v1.0.25.aar',    // OAID
+    )
 
     // 基础支持库
     implementation 'androidx.appcompat:appcompat:1.0.0'
