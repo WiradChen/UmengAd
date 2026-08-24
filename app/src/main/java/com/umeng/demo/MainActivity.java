@@ -2,7 +2,7 @@ package com.umeng.demo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,12 +22,12 @@ public class MainActivity extends AppCompatActivity {
         TextView tvVersion = findViewById(R.id.tvVersion);
         tvVersion.setText(getString(R.string.sdk_version, UMAD.getVersion()));
 
-        Button btnSplash = findViewById(R.id.btnSplash);
-        Button btnBanner = findViewById(R.id.btnBanner);
-        Button btnInterstitial = findViewById(R.id.btnInterstitial);
-        Button btnReward = findViewById(R.id.btnReward);
-        Button btnFullScreen = findViewById(R.id.btnFullScreen);
-        Button btnFeed = findViewById(R.id.btnFeed);
+        View btnSplash = findViewById(R.id.btnSplash);
+        View btnBanner = findViewById(R.id.btnBanner);
+        View btnInterstitial = findViewById(R.id.btnInterstitial);
+        View btnReward = findViewById(R.id.btnReward);
+        View btnFullScreen = findViewById(R.id.btnFullScreen);
+        View btnFeed = findViewById(R.id.btnFeed);
 
         btnSplash.setOnClickListener(v -> startActivity(new Intent(this, SplashAdActivity.class)));
         btnBanner.setOnClickListener(v -> startActivity(new Intent(this, BannerAdActivity.class)));

@@ -117,7 +117,7 @@ public class FeedAdActivity extends AppCompatActivity {
                 return new AdHolder(container);
             }
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(android.R.layout.simple_list_item_1, parent, false);
+                    .inflate(R.layout.item_feed_data, parent, false);
             return new DataHolder(view);
         }
 
@@ -148,7 +148,7 @@ public class FeedAdActivity extends AppCompatActivity {
 
             DataHolder(@NonNull View itemView) {
                 super(itemView);
-                textView = itemView.findViewById(android.R.id.text1);
+                textView = itemView.findViewById(R.id.text1);
             }
         }
 
