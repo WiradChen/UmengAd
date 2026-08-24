@@ -19,7 +19,7 @@
 UMengAd/
 ├── app/                        # Demo 应用
 │   ├── libs/
-│   │   └── umad-core-2.7.8.aar # ★ 优盟广告 SDK（已混淆，核心代码不开放）
+│   │   └── umad-core-1.0.0.aar # ★ 优盟广告 SDK（已混淆，核心代码不开放）
 │   └── src/main/
 │       ├── assets/ad_config.json    # ★ 广告位配置（平台参数都在这）
 │       ├── java/com/umeng/demo/     # Demo 代码
@@ -36,7 +36,7 @@ UMengAd/
 └── build.gradle
 ```
 
-> **说明**：Demo 通过 `app/libs/umad-core-2.7.8.aar` 依赖广告 SDK。
+> **说明**：Demo 通过 `app/libs/umad-core-1.0.0.aar` 依赖广告 SDK。
 > 该 AAR 已用 R8 混淆，**核心实现类被混淆为 a/b/c 等短名，只保留公共 API**，保障核心代码不开放。
 
 ---
@@ -45,13 +45,13 @@ UMengAd/
 
 ### 1. 引入 SDK
 
-把 `umad-core-2.7.8.aar` 放进 `app/libs/`，并依赖第三方广告源库：
+把 `umad-core-1.0.0.aar` 放进 `app/libs/`，并依赖第三方广告源库：
 
 ```groovy
 // app/build.gradle
 dependencies {
     // 优盟广告 SDK 核心（已混淆）
-    implementation files('libs/umad-core-2.7.8.aar')
+    implementation files('libs/umad-core-1.0.0.aar')
 
     // SDK 依赖的第三方广告源库（按需引入用到的平台，这里 demo 用穿山甲 + 瑞狮）
     implementation files(
@@ -332,13 +332,13 @@ cd ../UMAD
 
 生成的 AAR 会输出到：
 - `AdCore/build/outputs/aar/AdCore-release.aar`
-- `app/libs/ZhaiXin_2.7.8_release.aar`（自动复制）
+- `app/libs/ZhaiXin_1.0.0_release.aar`（自动复制）
 
 ### 2. 混淆保护
 
 AdCore 通过 R8 在打包时混淆核心代码：
-- **保留（不混淆）**：对外公共 API — `com.umeng.UMAD`、`com.umeng.advert.*`、`com.umeng.listener.*`
-- **混淆**：内部实现 — `com.umeng.adapter.*`、`com.umeng.manager.*`、`com.umeng.config.*`、`com.umeng.util.*` 等全部混淆为 `a/b/c` 短类名
+- **保留（不混淆）**：对外公共 API — `com.umeng.UMAD`、`com.umeng.advert.*`、`com.umeng.listener.*`，以及平台适配器 `com.umeng.adapter.*`（AdapterRegistry 用 `Class.forName` 字符串加载，混淆会导致"未注册广告加载类"）
+- **混淆**：内部实现 — `com.umeng.manager.*`、`com.umeng.config.*`、`com.umeng.util.*`、`request` 等全部混淆为 `a/b/c` 短类名
 
 关键配置（`AdCore/build.gradle` + `proguard-api.pro`）：
 
@@ -357,7 +357,7 @@ buildTypes {
 打包出新版 AAR 后，复制到 Demo 并重命名：
 
 ```bash
-cp ../UMAD/app/libs/ZhaiXin_2.7.8_release.aar app/libs/umad-core-2.7.8.aar
+cp ../UMAD/app/libs/ZhaiXin_1.0.0_release.aar app/libs/umad-core-1.0.0.aar
 ```
 
 ### 4. 发布给第三方
