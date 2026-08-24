@@ -9,7 +9,8 @@
   },
   "2208423313": {
     "advertises": [
-      { "platform": "ST", "appId": "25202", "adId": "10970720" }
+      { "platform": "RS", "appId": "A0732", "adId": "P4012", "appKey": "49fbef26bfdab8d8070baa9f9bb7ea1f" },
+      { "platform": "ZY", "appId": "20221128182451", "adId": "7377" }
     ]
   },
   "2533417682": {
