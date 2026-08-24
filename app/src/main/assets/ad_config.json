@@ -13,29 +13,30 @@
       { "platform": "ZY", "appId": "20221128182451", "adId": "7377" }
     ]
   },
-  "2533417682": {
-    "advertises": [
-      { "platform": "ST", "appId": "25202", "adId": "10970720" }
-    ]
-  },
   "2540096452": {
     "advertises": [
-      { "platform": "ST", "appId": "25202", "adId": "10970720" }
+      { "platform": "ST", "appId": "25202", "adId": "20575604" },
+      { "platform": "RS", "appId": "A0732", "adId": "P4010", "appKey": "49fbef26bfdab8d8070baa9f9bb7ea1f" },
+      { "platform": "ZY", "appId": "20221128182451", "adId": "7045" }
     ]
   },
   "2021839469": {
     "advertises": [
-      { "platform": "ST", "appId": "25202", "adId": "10970720" }
+      { "platform": "ZY", "appId": "20250723162001", "adId": "15113" }
     ]
   },
   "2102886533": {
     "advertises": [
-      { "platform": "ST", "appId": "25202", "adId": "10970720" }
+      { "platform": "ST", "appId": "25202", "adId": "30627844" },
+      { "platform": "RS", "appId": "A0732", "adId": "P4013", "appKey": "49fbef26bfdab8d8070baa9f9bb7ea1f" },
+      { "platform": "ZY", "appId": "20221128182451", "adId": "7047" }
     ]
   },
   "2919646015": {
     "advertises": [
-      { "platform": "ST", "appId": "25202", "adId": "10970720" }
+      { "platform": "ST", "appId": "25202", "adId": "40209828" },
+      { "platform": "RS", "appId": "A0732", "adId": "P4014", "appKey": "49fbef26bfdab8d8070baa9f9bb7ea1f" },
+      { "platform": "ZY", "appId": "20221128182451", "adId": "7048" }
     ]
   }
 }
