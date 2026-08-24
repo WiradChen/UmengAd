@@ -32,14 +32,13 @@ android {
 }
 
 dependencies {
-    // 广告 SDK 核心（已混淆的 AAR，核心代码不开放）
-    implementation files('libs/umad-core-2.7.8.aar')
-
-    // SDK 依赖的第三方广告源库（按需引入：demo 使用穿山甲 CSJ + 瑞狮 vlion）
+    // SDK 依赖的第三方广告源库（已复制到 app/libs/，demo 自包含）
+    // 按需引入：demo 使用穿山甲 CSJ + 瑞狮 vlion
     // 注：AAR 内 compileOnly，需在应用侧提供对应平台 SDK
     implementation files(
-        '../../UMAD/AdnLibs/CSJ_v7.4.2.0.aar',   // 穿山甲 (ST)
-        '../../UMAD/AdnLibs/OAID_v1.0.25.aar',    // OAID
+        'libs/umad-core-2.7.8.aar',   // 优盟广告 SDK 核心（已混淆）
+        'libs/CSJ_v7.4.2.0.aar',      // 穿山甲 (ST)
+        'libs/OAID_v1.0.25.aar',      // OAID
     )
 
     // 基础支持库
