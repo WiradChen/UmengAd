@@ -53,9 +53,9 @@ dependencies {
     // 优盟广告 SDK 核心（已混淆）
     implementation files('libs/umad-core-1.0.0.aar')
 
-    // SDK 依赖的第三方广告源库（按需引入用到的平台，这里 demo 用穿山甲 + 瑞狮）
+    // SDK 依赖的第三方广告源库（按需引入用到的平台，这里 demo 用上推 ST(佳投) + 瑞狮）
     implementation files(
-        'libs/adn/CSJ_v7.4.2.0.aar',  // 穿山甲 (ST)
+        'libs/adn/ST_v1.9.6.aar',     // 上推 (ST，佳投 advista)
         'libs/adn/OAID_v1.0.25.aar',  // OAID
     )
     implementation 'cn.vlion.inland:vlion-core-ec:7.00.81'  // 瑞狮 (RS)
@@ -81,7 +81,7 @@ dependencies {
 
 - **key**：广告位 ID，代码里 `new XXXAd("广告位ID")` 用它对应
 - **advertises[]**：该广告位的广告源列表
-  - `platform`：平台代号（穿山甲 `CSJ`/`ST`、快手 `KS`、百度 `BD`、优量汇 `YLH`、睿晟 `RS` 等，支持简称或全称）
+  - `platform`：平台代号（上推 `ST`(佳投)、穿山甲 `CSJ`、快手 `KS`、百度 `BD`、优量汇 `YLH`、瑞狮 `RS` 等，支持简称或全称）
   - `appId` / `adId` / `appKey`：对应平台的 SDK 参数
   - 多个源用数组元素区分（瀑布流）
 
@@ -297,6 +297,7 @@ UMAD.init(this, adPosMap);   // 传入配置，多源用 ";" 分隔
 
 ### 3. 平台代号支持哪些写法？
 支持简称（`CSJ`/`KS`/`BD`/`YLH`/`RS`/`ST` 等）或全称（`CHUANSHANJIA`/`KUAISHOU` 等），`Platform` 枚举会自动识别。
+> **区分**：`ST`(上推) 是佳投 advista SDK；`CSJ` 是穿山甲，两者是不同平台。
 
 ### 4. 调试怎么看？
 调用 `ad.enableDebug()` 可打开调试日志，上线前移除即可。
