@@ -33,13 +33,9 @@ android {
 
 dependencies {
     // SDK 依赖的第三方广告源库（已复制到 app/libs/，demo 自包含）
-    // 按需引入：demo 使用上推(ST/佳投 advista) + 瑞狮 vlion
+    // 按需引入：demo 使用穿山甲 CSJ + 瑞狮 vlion
     // 注：AAR 内 compileOnly，需在应用侧提供对应平台 SDK
-    implementation files(
-        'libs/umad-core-1.0.0.aar',   // 优盟广告 SDK 核心（已混淆，版本 1.0.0）
-        'libs/ST_v1.9.6.aar',         // 上推 (ST，佳投 advista SDK)
-        'libs/OAID_v1.0.25.aar',      // OAID
-    )
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])  // 直接依赖整个 libs 文件夹
 
     // 基础支持库
     implementation 'androidx.appcompat:appcompat:1.0.0'
@@ -47,7 +43,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'com.google.android.material:material:1.6.0'
-    implementation 'androidx.viewpager2:viewpager2:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     // 依赖库
