@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <application
+        android:name="com.umeng.demo.App"
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.App"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+
+        <activity
+            android:name="com.umeng.demo.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- 开屏广告 -->
+        <activity
+            android:name="com.umeng.demo.SplashAdActivity"
+            android:exported="false"
+            android:theme="@style/Theme.App.Fullscreen" />
+
+        <!-- 横幅广告 -->
+        <activity
+            android:name="com.umeng.demo.BannerAdActivity"
+            android:exported="false" />
+
+        <!-- 插屏广告 -->
+        <activity
+            android:name="com.umeng.demo.InterstitialAdActivity"
+            android:exported="false" />
+
+        <!-- 激励视频 -->
+        <activity
+            android:name="com.umeng.demo.RewardVideoAdActivity"
+            android:exported="false" />
+
+        <!-- 全屏视频 -->
+        <activity
+            android:name="com.umeng.demo.FullScreenAdActivity"
+            android:exported="false" />
+
+        <!-- 信息流广告 -->
+        <activity
+            android:name="com.umeng.demo.FeedAdActivity"
+            android:exported="false" />
+    </application>
+</manifest>

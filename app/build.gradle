@@ -1,0 +1,69 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.umeng.demo'
+
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.umeng.demo"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    // 广告 SDK 核心（已混淆的 AAR，核心代码不开放）
+    implementation files('libs/umad-core-2.7.8.aar')
+
+    // SDK 依赖的第三方广告源库（AAR 使用 compileOnly，需在应用侧提供）
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: '../UMAD/AdnLibs')
+
+    // 基础支持库
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    // 依赖库
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    implementation 'com.squareup.okio:okio:3.6.0'
+    implementation 'com.github.gzu-liyujiang:Android_CN_OAID:4.2.4'
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.19.1'
+    implementation 'com.google.android.exoplayer:exoplayer-datasource:2.19.1'
+    implementation 'com.google.protobuf:protobuf-javalite:4.34.1'
+    implementation "com.google.guava:guava:31.0.1-android"
+    implementation "pl.droidsonroids.gif:android-gif-drawable:1.2.6"
+    implementation "com.android.support.constraint:constraint-layout:2.0.4"
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android:6.8.0'
+
+    // 瑞狮 SDK（AdCore compileOnly，自带华为 hwsdk）
+    implementation('cn.vlion.inland:vlion-core-ec:7.00.81') {
+        exclude group: 'cn.vlion.inland', module: 'vlion-j'
+        exclude group: 'cn.vlion.inland', module: 'vlion-wm-sdk'
+    }
+}

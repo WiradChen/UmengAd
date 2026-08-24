@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">UMengAd Demo</string>
+    <string name="sdk_version">SDK v%1$s</string>
+    <string name="hint_pos_id">广告位ID: %1$s</string>
+</resources>

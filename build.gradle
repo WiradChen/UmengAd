@@ -1,0 +1,30 @@
+buildscript {
+    repositories {
+        google()
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+    }
+
+    dependencies {
+        classpath "com.android.tools.build:gradle:8.7.2"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://developer.huawei.com/repo/' }
+        maven { url 'https://jitpack.io' }
+        // 瑞狮 SDK 仓库
+        maven {
+            url 'http://sdk.mentamob.com/repository/vlion/'
+            allowInsecureProtocol = true
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

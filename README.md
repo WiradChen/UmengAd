@@ -1,0 +1,361 @@
+# UMengAd Demo（优盟广告引擎接入示例）
+
+一个精简、清晰的**请求广告 Demo**，演示如何接入优盟广告引擎（UMAD SDK），覆盖所有主流广告类型：
+
+| 广告类型 | 说明 |
+|---------|------|
+| 开屏广告 (Splash) | 应用启动时全屏展示 |
+| 横幅广告 (Banner) | 页面内固定区域展示 |
+| 插屏广告 (Interstitial) | 页面切换时弹出 |
+| 激励视频 (RewardVideo) | 用户看完后发奖 |
+| 全屏视频 (FullScreen) | 全屏展示的视频广告 |
+| 信息流广告 (Feed) | 嵌在列表中的原生广告 |
+
+---
+
+## 一、项目结构
+
+```
+UMengAd/
+├── app/                        # Demo 应用
+│   ├── libs/
+│   │   └── umad-core-2.7.8.aar # ★ 优盟广告 SDK（已混淆，核心代码不开放）
+│   └── src/main/
+│       ├── assets/ad_config.json    # ★ 广告位配置（平台参数都在这）
+│       ├── java/com/umeng/demo/     # Demo 代码
+│       │   ├── App.java             # 应用入口，初始化 SDK
+│       │   ├── MainActivity.java    # 首页，各广告入口
+│       │   ├── SplashAdActivity.java
+│       │   ├── BannerAdActivity.java
+│       │   ├── InterstitialAdActivity.java
+│       │   ├── RewardVideoAdActivity.java
+│       │   ├── FullScreenAdActivity.java
+│       │   └── FeedAdActivity.java
+│       └── res/                     # 布局与资源
+├── settings.gradle
+└── build.gradle
+```
+
+> **说明**：Demo 通过 `app/libs/umad-core-2.7.8.aar` 依赖广告 SDK。
+> 该 AAR 已用 R8 混淆，**核心实现类被混淆为 a/b/c 等短名，只保留公共 API**，保障核心代码不开放。
+
+---
+
+## 二、接入步骤（三步）
+
+### 1. 引入 SDK
+
+把 `umad-core-2.7.8.aar` 放进 `app/libs/`，并依赖第三方广告源库：
+
+```groovy
+// app/build.gradle
+dependencies {
+    // 优盟广告 SDK 核心（已混淆）
+    implementation files('libs/umad-core-2.7.8.aar')
+
+    // SDK 依赖的第三方广告源库（穿山甲/快手/百度/优量汇等）
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/adn')
+}
+```
+
+> **注意**：广告 SDK 内部聚合了多家广告平台，集成时需要同时引入对应的第三方广告源 SDK（AAR 内 `compileOnly`，需在应用侧提供）。
+
+### 2. 配置广告位（assets/ad_config.json）
+
+在 `app/src/main/assets/ad_config.json` 里配置每个广告位的平台参数。**这是唯一需要填广告参数的地方，代码里不硬编码。**
+
+```json
+{
+  "2629995460": {
+    "advertises": [
+      { "platform": "ST", "appId": "25202", "adId": "10970720" },
+      { "platform": "RS", "appId": "A0732", "adId": "P4009", "appKey": "49fbef..." }
+    ]
+  }
+}
+```
+
+- **key**：广告位 ID，代码里 `new XXXAd("广告位ID")` 用它对应
+- **advertises[]**：该广告位的广告源列表
+  - `platform`：平台代号（穿山甲 `CSJ`/`ST`、快手 `KS`、百度 `BD`、优量汇 `YLH`、睿晟 `RS` 等，支持简称或全称）
+  - `appId` / `adId` / `appKey`：对应平台的 SDK 参数
+  - 多个源用数组元素区分（瀑布流）
+
+### 3. 初始化 SDK（App.java）
+
+在 `Application.onCreate()` 里初始化，**SDK 会自动读取 ad_config.json**：
+
+```java
+public class App extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        UMAD.init(this);   // 自动从 assets/ad_config.json 读取广告位配置
+    }
+}
+```
+
+---
+
+## 三、各广告类型调用
+
+所有广告都是同样的套路：**创建广告对象 → 设置监听 → load() → 在 onLoad 回调里 show()**。
+
+### 3.1 开屏广告 SplashAd
+
+```java
+SplashAd ad = new SplashAd("2629995460");   // 广告位ID
+ad.enableDebug();                            // 调试日志（上线可去掉）
+
+ad.setAdLoadListener(new AdLoadListener() {
+    @Override public void onLoad() {
+        ad.show(container);                  // 展示到全屏容器
+    }
+    @Override public void onNoAd(int code, String message) {
+        // 无广告，进入主页面
+    }
+});
+ad.load(this);                               // Activity
+```
+
+- `load(Activity)`：加载
+- `show(ViewGroup)`：展示到容器（一般是全屏 FrameLayout）
+- 建议在启动页 `onCreate` 里立即调用
+
+### 3.2 横幅广告 BannerAd
+
+```java
+BannerAd ad = new BannerAd("2208423313");
+ad.enableDebug();
+ad.setAdLoadListener(new AdLoadListener() {
+    @Override public void onLoad() {
+        ad.show(container);                  // 展示到页面内容器
+    }
+    @Override public void onNoAd(int code, String message) { }
+});
+ad.load(this, width, 0);                     // width=容器宽，height 传 0 用默认
+```
+
+- `load(Activity, int width, int height)`：宽度传容器宽度，高度传 `0` 使用平台默认
+- `show(ViewGroup)`：展示到指定容器
+
+### 3.3 插屏广告 InterstitialAd
+
+```java
+InterstitialAd ad = new InterstitialAd("2102886533");
+ad.enableDebug();
+ad.setAdLoadListener(new AdLoadListener() {
+    @Override public void onLoad() {
+        ad.show(activity);                   // 弹出插屏
+    }
+    @Override public void onNoAd(int code, String message) { }
+});
+ad.load(activity);
+```
+
+- `load(Activity)`：加载
+- `show(Activity)`：弹出展示
+
+### 3.4 激励视频 RewardVideoAd
+
+```java
+RewardVideoAd ad = new RewardVideoAd("2919646015");
+ad.enableDebug();
+
+// 视频播放回调
+ad.setVideoPlayListener(new VideoPlayListener() {
+    @Override public void onPlayStart() { }
+    @Override public void onPlaySkip() { }
+    @Override public void onPlayFinish() { }
+});
+
+// 视图回调（含发奖）
+ad.setAdViewListener(new AdViewListener() {
+    @Override public void onShow() { }
+    @Override public void onClose() { }
+    @Override public void onClick() { }
+    @Override public void onReward() {      // ★ 满足发奖条件
+        // 在这里发放奖励
+    }
+    @Override public void onResourceError() { }
+});
+
+ad.setAdLoadListener(new AdLoadListener() {
+    @Override public void onLoad() {
+        ad.show(activity);                   // 播放激励视频
+    }
+    @Override public void onNoAd(int code, String message) { }
+});
+ad.load(context);                            // Context
+```
+
+- **发奖时机**：在 `AdViewListener.onReward()` 回调里发奖
+- `load(Context)` / `show(Activity)`
+
+### 3.5 全屏视频 FullScreenAd
+
+```java
+FullScreenAd ad = new FullScreenAd("2021839469");
+ad.enableDebug();
+ad.setAdLoadListener(new AdLoadListener() {
+    @Override public void onLoad() {
+        ad.show(activity);                   // 全屏展示
+    }
+    @Override public void onNoAd(int code, String message) { }
+});
+ad.load(activity);
+```
+
+- `load(Activity)` / `show(Activity)`
+
+### 3.6 信息流广告 FeedAd
+
+信息流广告嵌在 RecyclerView 列表里。加载后用 `FeedAdData.getAdView()` 拿到广告视图，插到列表项中：
+
+```java
+FeedAd advert = new FeedAd("2540096452");
+advert.enableDebug();
+advert.setAdLoadListener(new FeedLoadListener() {
+    @Override public void onLoad(List<FeedAdData> list) {
+        // list 里的每个 FeedAdData 对应一个广告
+        for (FeedAdData data : list) {
+            data.render();                          // 渲染广告
+            View adView = data.getAdView();         // 获取广告视图
+            // 将 adView 添加到列表项容器
+        }
+    }
+    @Override public void onNoAd(int code, String message) { }
+});
+advert.load(activity);
+```
+
+> 详见 `FeedAdActivity.java` 里的 `FeedAdapter`，演示了广告项与内容项混排。
+
+---
+
+## 四、公共回调接口
+
+所有广告类型共享以下监听器：
+
+### AdLoadListener（加载结果）
+```java
+public interface AdLoadListener {
+    void onLoad();                          // 加载成功
+    void onNoAd(int code, String message);  // 无广告/失败
+}
+```
+
+### AdViewListener（展示/交互）
+```java
+public interface AdViewListener {
+    void onShow();          // 展示
+    void onClose();         // 关闭
+    void onClick();         // 点击
+    void onReward();        // 满足发奖条件（激励视频）
+    void onResourceError(); // 资源错误
+}
+```
+
+### VideoPlayListener（视频播放，激励/全屏）
+```java
+public interface VideoPlayListener {
+    void onPlayStart();     // 开始播放
+    void onPlaySkip();      // 跳过
+    void onPlayFinish();    // 播放完成
+}
+```
+
+### FeedLoadListener（信息流）
+```java
+public interface FeedLoadListener {
+    void onLoad(List<FeedAdData> list);     // 加载成功，返回广告数据列表
+    void onNoAd(int code, String message);  // 无广告
+}
+```
+
+---
+
+## 五、FAQ
+
+### 1. 广告位配置可以动态传吗？
+可以。除了默认读 `ad_config.json`，也支持代码传入 String map：
+
+```java
+Map<String, String> adPosMap = new HashMap<>();
+adPosMap.put("2629995460", "ST,25202,10970720;RS,A0732,P4009,49fbef...");
+UMAD.init(this, adPosMap);   // 传入配置，多源用 ";" 分隔
+```
+
+读取优先级：**ad_config.json 优先，String map 兜底**。
+
+### 2. ad_config.json 不存在会怎样？
+不会崩溃。SDK 内部 try-catch 兜底返回空配置，只是该广告位拉不到广告（走 `onNoAd`）。
+
+### 3. 平台代号支持哪些写法？
+支持简称（`CSJ`/`KS`/`BD`/`YLH`/`RS`/`ST` 等）或全称（`CHUANSHANJIA`/`KUAISHOU` 等），`Platform` 枚举会自动识别。
+
+### 4. 调试怎么看？
+调用 `ad.enableDebug()` 可打开调试日志，上线前移除即可。
+
+---
+
+## 六、构建
+
+```bash
+# 在项目根目录（需已配置 Android SDK）
+./gradlew :app:assembleDebug
+```
+
+生成的 APK 位于 `app/build/outputs/apk/debug/app-debug.apk`。
+
+---
+
+## 七、SDK 发布说明（维护者）
+
+### 1. 构建混淆后的核心 AAR
+
+广告 SDK 核心（`AdCore`）在 **UMAD 项目**里维护。发布新版 AAR：
+
+```bash
+cd ../UMAD
+./gradlew :AdCore:assembleRelease
+```
+
+生成的 AAR 会输出到：
+- `AdCore/build/outputs/aar/AdCore-release.aar`
+- `app/libs/ZhaiXin_2.7.8_release.aar`（自动复制）
+
+### 2. 混淆保护
+
+AdCore 通过 R8 在打包时混淆核心代码：
+- **保留（不混淆）**：对外公共 API — `com.umeng.UMAD`、`com.umeng.advert.*`、`com.umeng.listener.*`
+- **混淆**：内部实现 — `com.umeng.adapter.*`、`com.umeng.manager.*`、`com.umeng.config.*`、`com.umeng.util.*` 等全部混淆为 `a/b/c` 短类名
+
+关键配置（`AdCore/build.gradle` + `proguard-api.pro`）：
+
+```groovy
+buildTypes {
+    release {
+        minifyEnabled true
+        consumerProguardFiles 'consumer-rules.pro'  // 传给集成方，保公共 API
+        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-api.pro'
+    }
+}
+```
+
+### 3. 更新 Demo 里的 AAR
+
+打包出新版 AAR 后，复制到 Demo 并重命名：
+
+```bash
+cp ../UMAD/app/libs/ZhaiXin_2.7.8_release.aar app/libs/umad-core-2.7.8.aar
+```
+
+### 4. 发布给第三方
+
+将以下内容交付给集成方：
+1. `umad-core-x.x.x.aar`（已混淆的核心 SDK）
+2. 第三方广告源 SDK（穿山甲/快手/百度/优量汇等 AAR）
+3. 本 README（接入文档）
+
+> ⚠️ **重要**：`assets/ad_config.json` 里的广告位配置由集成方自行填写自己的平台参数，不随 SDK 分发。
