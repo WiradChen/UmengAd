@@ -2,23 +2,6 @@
   "2629995460": {
     "advertises": [
       { "platform": "CSJ", "appId": "5658904", "adId": "894136167" },
-     /* { "platform": "YLH", "appId": "", "adId": "" },
-      { "platform": "YLH", "appId": "", "adId": "" },
-      { "platform": "BD", "appId": "", "adId": "" },
-      { "platform": "KS", "appId": "", "adId": "" },
-      { "platform": "BZ", "appId": "", "adId": "" },
-      { "platform": "ZY", "appId": "", "adId": "" },
-      { "platform": "MS", "appId": "", "adId": "" },
-      { "platform": "MS", "appId": "", "adId": "" },
-      { "platform": "DM", "appId": "", "adId": "" },
-      { "platform": "MM", "appId": "", "adId": "" },
-      { "platform": "TK", "appId": "", "adId": "" },
-      { "platform": "SM", "appId": "", "adId": "" },
-      { "platform": "HW", "appId": "", "adId": "" },
-      { "platform": "AG", "appId": "", "adId": "" },
-      { "platform": "FS", "appId": "", "adId": "" },
-      { "platform": "LY", "appId": "", "adId": "" },*/
-    /*  { "platform": "FW", "appId": "", "adId": "" },*/
       { "platform": "ST", "appId": "25202", "adId": "10970720" },
       { "platform": "RS", "appId": "A0732", "adId": "P4009", "appKey": "49fbef26bfdab8d8070baa9f9bb7ea1f" },
       { "platform": "KY", "appId": "SDK202617140501574oqzd0fdk11p0er", "adId": "POSIDm2ioc4tbvo3d" }
