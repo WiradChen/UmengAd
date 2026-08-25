@@ -1,6 +1,8 @@
 package com.umeng.demo;
 
 import android.os.Bundle;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +22,6 @@ public class SplashAdActivity extends AppCompatActivity {
 
     private FrameLayout adContainer;
     private TextView tvStatus;
-    private TextView tvPosId;
     private SplashAd ad;
 
     private static final String POS_ID = "2629995460";
@@ -28,22 +29,25 @@ public class SplashAdActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ad_common);
+        // 全屏：隐藏状态栏 + 导航栏
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
 
-        tvTitle("开屏广告 Splash");
-        tvPosId = findViewById(R.id.tvPosId);
-        tvPosId.setText(getString(R.string.hint_pos_id, POS_ID));
+        setContentView(R.layout.activity_splash);
+
         tvStatus = findViewById(R.id.tvStatus);
         adContainer = findViewById(R.id.adContainer);
 
         // 开屏广告建议在页面启动时自动加载展示
-        findViewById(R.id.btnLoad).setOnClickListener(v -> loadSplash());
         loadSplash();
-    }
-
-    private void tvTitle(CharSequence title) {
-        TextView tv = findViewById(R.id.tvTitle);
-        tv.setText(title);
     }
 
     private void loadSplash() {
@@ -56,12 +60,13 @@ public class SplashAdActivity extends AppCompatActivity {
                 // 加载成功，展示到容器
                 adContainer.setVisibility(FrameLayout.VISIBLE);
                 ad.show(adContainer);
-                tvStatus.setText("广告加载成功，已展示");
+                tvStatus.setVisibility(View.GONE);
             }
 
             @Override
             public void onNoAd(int code, String message) {
-                tvStatus.setText("无广告回调 code=" + code + ", msg=" + message);
+                tvStatus.setText("无广告 code=" + code + " " + message);
+                tvStatus.setVisibility(View.VISIBLE);
                 Toast.makeText(SplashAdActivity.this, "无广告", Toast.LENGTH_SHORT).show();
             }
         });
@@ -69,7 +74,7 @@ public class SplashAdActivity extends AppCompatActivity {
         ad.setAdViewListener(new AdViewListener() {
             @Override
             public void onShow() {
-                tvStatus.setText("开屏已展示");
+                tvStatus.setVisibility(View.GONE);
             }
 
             @Override
@@ -79,7 +84,7 @@ public class SplashAdActivity extends AppCompatActivity {
 
             @Override
             public void onClick() {
-                tvStatus.setText("广告被点击");
+                // 广告被点击
             }
 
             @Override
@@ -92,6 +97,7 @@ public class SplashAdActivity extends AppCompatActivity {
         });
 
         tvStatus.setText("正在加载开屏广告...");
+        tvStatus.setVisibility(View.VISIBLE);
         ad.load(this);
     }
 
