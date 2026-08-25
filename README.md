@@ -12,6 +12,20 @@
 
 ---
 
+## 效果预览
+
+| 主页面 | 开屏广告 | 横幅广告 |
+|:---:|:---:|:---:|
+| <img src="./docs/screenshots/01-main.png" width="200"> | <img src="./docs/screenshots/02-splash.png" width="200"> | <img src="./docs/screenshots/03-banner.png" width="200"> |
+| 首页入口 | 全屏开屏 | 横幅展示 |
+
+| 插屏广告 | 激励视频 | 信息流广告 |
+|:---:|:---:|:---:|
+| <img src="./docs/screenshots/04-interstitial.png" width="200"> | <img src="./docs/screenshots/05-reward-video.png" width="200"> | <img src="./docs/screenshots/06-feed.png" width="200"> |
+| 插屏弹窗 | 激励视频 | 信息流混排 |
+
+---
+
 ## 支持的广告类型
 
 | 广告类型 | 说明 |
