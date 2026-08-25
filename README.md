@@ -274,9 +274,15 @@ UMAD.init(this, adPosMap);
 
 ---
 
-## 五、Demo 运行
+## 五、Demo 体验
 
-Demo 工程位于 `UMengAd/`，可直接编译运行查看各广告类型效果：
+扫码下载 Demo APK，快速体验各广告类型效果：
+
+<img src="./docs/demo-apk-qr.png" alt="Demo APK 二维码" width="200" />
+
+### 源码编译
+
+Demo 工程位于 `UMengAd/`，可直接编译运行：
 
 ```bash
 ./gradlew assembleDebug
