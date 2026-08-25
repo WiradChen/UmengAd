@@ -40,10 +40,11 @@ dependencies {
     // 基础支持库
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-    implementation 'com.google.android.material:material:1.6.0'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.material:material:1.6.0'  // MS 美数 SDK 的布局用了 CardView，必须保留
+    // 以下 Demo 未直接使用，注释掉以减小包体（如需再开）
+    // implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    // implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    // implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     // 依赖库
     implementation 'com.google.code.gson:gson:2.8.6'
