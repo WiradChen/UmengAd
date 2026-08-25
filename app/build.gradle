@@ -18,13 +18,26 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
             minifyEnabled false
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    // 签名配置
+    signingConfigs {
+        debug {
+            storeFile file('src/main/jks/weather.jks')
+            storePassword '123456'
+            keyAlias 'weather'
+            keyPassword '123456'
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
