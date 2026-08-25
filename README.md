@@ -24,20 +24,22 @@ UMengAd/
 │       ├── assets/ad_config.json    # ★ 广告位配置（平台参数都在这）
 │       ├── java/com/umeng/demo/     # Demo 代码
 │       │   ├── App.java             # 应用入口，初始化 SDK
-│       │   ├── MainActivity.java    # 首页，各广告入口
-│       │   ├── SplashAdActivity.java
+│       │   ├── MainActivity.java    # 首页，各广告入口（深色科技风卡片式）
+│       │   ├── SplashAdActivity.java   # 全屏开屏页
 │       │   ├── BannerAdActivity.java
 │       │   ├── InterstitialAdActivity.java
 │       │   ├── RewardVideoAdActivity.java
 │       │   ├── FullScreenAdActivity.java
 │       │   └── FeedAdActivity.java
-│       └── res/                     # 布局与资源
+│       └── res/                     # 布局与资源（logo.png 为应用图标）
 ├── settings.gradle
 └── build.gradle
 ```
 
 > **说明**：Demo 通过 `app/libs/umad-core-1.0.0.aar` 依赖广告 SDK。
 > 该 AAR 已用 R8 混淆，**核心实现类被混淆为 a/b/c 等短名，只保留公共 API**，保障核心代码不开放。
+>
+> 项目不依赖 UMAD 源码目录，完全独立。
 
 ---
 
@@ -45,24 +47,33 @@ UMengAd/
 
 ### 1. 引入 SDK
 
-把 `umad-core-1.0.0.aar` 放进 `app/libs/`，并依赖第三方广告源库：
+把 `umad-core-1.0.0.aar` 放进 `app/libs/`，并引入第三方广告源库：
 
 ```groovy
 // app/build.gradle
 dependencies {
-    // 优盟广告 SDK 核心（已混淆）
-    implementation files('libs/umad-core-1.0.0.aar')
+    // 方式一：直接依赖整个 libs 文件夹（简单）
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
-    // SDK 依赖的第三方广告源库（按需引入用到的平台，这里 demo 用上推 ST(佳投) + 瑞狮）
-    implementation files(
-        'libs/adn/ST_v1.9.6.aar',     // 上推 (ST，佳投 advista)
-        'libs/adn/OAID_v1.0.25.aar',  // OAID
-    )
-    implementation 'cn.vlion.inland:vlion-core-ec:7.00.81'  // 瑞狮 (RS)
+    // 方式二：单独依赖
+    // implementation files('libs/umad-core-1.0.0.aar')
+
+    // 基础库（必须）
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'com.google.android.material:material:1.6.0'  // 部分广告平台（如 MS 美数）依赖 CardView 等组件
+
+    // 瑞狮 SDK（AdCore compileOnly，需在应用侧提供）
+    implementation('cn.vlion.inland:vlion-core-ec:7.00.81') {
+        exclude group: 'cn.vlion.inland', module: 'vlion-j'
+        exclude group: 'cn.vlion.inland', module: 'vlion-wm-sdk'
+    }
 }
 ```
 
 > **注意**：广告 SDK 内部聚合了多家广告平台（穿山甲/快手/百度/优量汇等），`ad_config.json` 里用到哪个平台，就引入对应平台的 SDK（AAR 内 `compileOnly`，需在应用侧提供）。用不到的平台无需引入，避免包体过大。
+>
+> Demo 的 `app/libs/` 里已包含常用平台的 AAR，可按需选用。
 
 ### 2. 配置广告位（assets/ad_config.json）
 
@@ -84,6 +95,8 @@ dependencies {
   - `platform`：平台代号（上推 `ST`(佳投)、穿山甲 `CSJ`、快手 `KS`、百度 `BD`、优量汇 `YLH`、瑞狮 `RS` 等，支持简称或全称）
   - `appId` / `adId` / `appKey`：对应平台的 SDK 参数
   - 多个源用数组元素区分（瀑布流）
+
+> ⚠️ JSON 不支持注释，`ad_config.json` 里不要写 `//` 或 `/* */`，否则 SDK 初始化解析失败。
 
 ### 3. 初始化 SDK（App.java）
 
@@ -125,6 +138,7 @@ ad.load(this);                               // Activity
 - `load(Activity)`：加载
 - `show(ViewGroup)`：展示到容器（一般是全屏 FrameLayout）
 - 建议在启动页 `onCreate` 里立即调用
+- 开屏页建议设为**全屏沉浸式**（隐藏状态栏 + 导航栏），体验更好
 
 ### 3.2 横幅广告 BannerAd
 
@@ -307,16 +321,25 @@ UMAD.init(this, adPosMap);   // 传入配置，多源用 ";" 分隔
 
 **解决**：按 `ad_config.json` 里用到的平台，把对应平台 SDK 加到依赖里。用不到的平台不要声明 provider 相关类。例如报 `com.qq.e.comm.GDTFileProvider` 找不到，说明你用了优量汇但没引入 GDT SDK（或反了）。
 
+### 6. 打包 OOM（内存溢出）？
+如果 `libs/` 里全量引入所有平台 SDK，包体会很大，低内存机器编译可能 OOM。
+
+**解决**：只引入 `ad_config.json` 里实际用到的平台 SDK，没用的从 `libs/` 里移除。
+Demo 默认全部放在 libs 里方便切换，正式集成建议按需引入。
+
 ---
 
 ## 六、构建
 
 ```bash
 # 在项目根目录（需已配置 Android SDK）
-./gradlew :app:assembleDebug
+./gradlew assembleDebug        # Debug 包
+./gradlew assembleRelease      # Release 包
 ```
 
-生成的 APK 位于 `app/build/outputs/apk/debug/app-debug.apk`。
+生成的 APK 位于：
+- Debug：`app/build/outputs/apk/debug/app-debug.apk`
+- Release：`app/build/outputs/apk/release/app-release.apk`
 
 ---
 
@@ -324,16 +347,20 @@ UMAD.init(this, adPosMap);   // 传入配置，多源用 ";" 分隔
 
 ### 1. 构建混淆后的核心 AAR
 
-广告 SDK 核心（`AdCore`）在 **UMAD 项目**里维护。发布新版 AAR：
+广告 SDK 核心（`AdCore`）在 **UMAD 项目**里维护（与本 Demo 独立）。
+> ⚠️ UMAD 项目**只编辑 `main` 分支**，远程 `master` 已删除。
+
+发布新版 AAR：
 
 ```bash
 cd ../UMAD
+git pull                     # 先更新代码
 ./gradlew :AdCore:assembleRelease
 ```
 
 生成的 AAR 会输出到：
 - `AdCore/build/outputs/aar/AdCore-release.aar`
-- `app/libs/ZhaiXin_1.0.0_release.aar`（自动复制）
+- `app/libs/ZhaiXin_2.7.8_release.aar`（自动复制，版本号以实际为准）
 
 ### 2. 混淆保护
 
@@ -358,10 +385,14 @@ buildTypes {
 打包出新版 AAR 后，复制到 Demo 并重命名：
 
 ```bash
-cp ../UMAD/app/libs/ZhaiXin_1.0.0_release.aar app/libs/umad-core-1.0.0.aar
+cp ../UMAD/app/libs/ZhaiXin_xxx_release.aar app/libs/umad-core-x.x.x.aar
 ```
 
-### 4. 发布给第三方
+### 4. 代码提交规则
+
+改完代码后直接 `git commit + git push` 到远程 `main`，不需要逐项确认。
+
+### 5. 发布给第三方
 
 将以下内容交付给集成方：
 1. `umad-core-x.x.x.aar`（已混淆的核心 SDK）
