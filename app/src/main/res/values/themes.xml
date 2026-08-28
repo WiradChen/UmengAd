@@ -5,8 +5,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowBackground">@drawable/bg_app</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowBackground">@color/bg_main</item>
     </style>
 
     <style name="Theme.App.Fullscreen" parent="Theme.AppCompat.Light.NoActionBar">
