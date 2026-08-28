@@ -4,7 +4,15 @@
       { "platform": "CSJ", "appId": "5658904", "adId": "894136167" },
       { "platform": "ST", "appId": "25202", "adId": "10970720" },
       { "platform": "RS", "appId": "A0732", "adId": "P4009", "appKey": "49fbef26bfdab8d8070baa9f9bb7ea1f" },
-      { "platform": "KY", "appId": "SDK202617140501574oqzd0fdk11p0er", "adId": "POSIDm2ioc4tbvo3d" }
+      { "platform": "KY", "appId": "SDK202617140501574oqzd0fdk11p0er", "adId": "POSIDm2ioc4tbvo3d" },
+      { "platform": "TK", "appId": "a6822aaa94b631", "adId": "b69f17f4de6e6c", "appKey": "af5f12e3386e175fb76" },
+      { "platform": "FW", "appId": "46789", "adId": "900005504", "appKey": "InG8R3FRhuueZbSY" },
+      { "platform": "LY", "appId": "11037572", "adId": "31038791" },
+      { "platform": "FS", "appId": "TEST", "adId": "1_2_1", "appKey": "1yh0ryt83i0czmcsuqs" },
+      { "platform": "AG", "appId": "11000500", "adId": "11001801" },
+      { "platform": "MS", "appId": "115935", "adId": "1075585" },
+      { "platform": "ZY", "appId": "2022112812451", "adId": "7046" },
+      { "platform": "BZ", "appId": "14657", "adId": "15341" }
     ]
   },
   "2208423313": {
