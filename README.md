@@ -182,13 +182,13 @@ AdPerfData data = AdOptimizer.getPerfData("广告位ID", "CSJ");
 
 ### 1. 引入 SDK
 
-将 `umad-core-x.x.x.aar` 放入 `app/libs/` 目录：
+将 `UM_v1.1.0.aar` 放入 `app/libs/` 目录（可在 Demo 工程的 `app/libs/` 中找到，或从 Release 页下载）：
 
 ```groovy
 // app/build.gradle
 dependencies {
     // 优盟广告 SDK
-    implementation files('libs/umad-core-1.0.0.aar')
+    implementation files('libs/UM_v1.1.0.aar')
 
     // 基础依赖
     implementation 'androidx.appcompat:appcompat:1.0.0'
