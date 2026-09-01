@@ -468,4 +468,4 @@ Demo 中包含了各广告类型的完整示例代码，可参考接入。
 
 ---
 
-*© 优盟广告 UMAD SDK*
+*© 优盟广告 UMAD SDK | Apache License 2.0*
