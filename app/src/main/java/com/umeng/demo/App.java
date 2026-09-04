@@ -21,6 +21,7 @@ public class App extends Application {
 
         // 可选：配置统一频控（不配置则使用 SDK 内置默认规则）
         // 统一频控在聚合层做总闸门，同类型广告位共享计数，避免各平台各自记频控导致总量超标
+        // AdOptimizer.setFreqCapEnabled(false);  // 如需整体关闭频控，取消注释即可（默认开启）
         AdOptimizer.setFreqCap(AdOptimizer.TYPE_SPLASH, 2, 10, 0);        // 开屏：每天2次，最小间隔10秒
         AdOptimizer.setFreqCap(AdOptimizer.TYPE_REWARD, 10, 0, 0);        // 激励视频：每天10次
         AdOptimizer.setFreqCap(AdOptimizer.TYPE_INTERSTITIAL, 5, 180, 0); // 插屏：每天5次，最小间隔180秒
