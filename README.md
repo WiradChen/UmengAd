@@ -153,6 +153,42 @@ AdPerfData data = AdOptimizer.getPerfData("广告位ID", "CSJ");
 
 ---
 
+### 🛡️ 四、统一频控（Frequency Capping）
+
+在**聚合层做总闸门**，限制**同一个用户**在一定时间内看到某类广告的次数，避免广告源过多打扰用户。
+
+**为什么需要统一频控？**
+
+SDK 聚合了 20+ 家平台，每家平台各自有独立的频控设置。如果只配各家平台自己的频控，用户实际看到的次数会**叠加超标**（例：穿山甲每天 10 次 + 快手每天 10 次 = 实际 20 次）。统一频控由 SDK 在最顶层管一个**总计数器**，所有广告源共享，总量达标就整体拦截。
+
+**默认规则**（不配置则生效）：
+
+| 广告位类型 | 每日上限 | 最小间隔 | 每小时上限 |
+|------------|:---:|:---:|:---:|
+| 开屏 splash | 2 | 10秒 | - |
+| 横幅 banner | - | 60秒 | 20 |
+| 插屏 interstitial | 5 | 180秒 | - |
+| 激励视频 reward_video | 10 | - | - |
+| 全屏 fullscreen | 5 | 180秒 | - |
+| 信息流 feed | - | 60秒 | 20 |
+
+**自定义配置**（可选，覆盖默认）：
+
+```java
+// 在初始化后调用
+AdOptimizer.setFreqCap(AdOptimizer.TYPE_SPLASH, 2, 10, 0);        // 开屏：每天2次，最小间隔10秒
+AdOptimizer.setFreqCap(AdOptimizer.TYPE_REWARD, 10, 0, 0);        // 激励视频：每天10次
+AdOptimizer.setFreqCap(AdOptimizer.TYPE_INTERSTITIAL, 5, 180, 0); // 插屏：每天5次，最小间隔180秒
+AdOptimizer.setFreqCap(AdOptimizer.TYPE_BANNER, 0, 60, 20);       // 横幅：每小时20次，最小间隔60秒
+```
+
+- `maxPerDay`：每天最多展示次数，`<=0` 表示不限制
+- `minIntervalSec`：两次展示最小间隔秒数，`<=0` 表示不限制
+- `maxPerHour`：每小时最多展示次数，`<=0` 表示不限制
+- 超限时 SDK 回调 `onNoAd(5001, "已达频控上限")`，不会展示广告
+
+---
+
 ## 效果预览
 
 | 主页面 | 开屏广告 | 横幅广告 |
@@ -184,13 +220,13 @@ AdPerfData data = AdOptimizer.getPerfData("广告位ID", "CSJ");
 
 ### 1. 引入 SDK
 
-将 `UM_v1.2.0.aar` 放入 `app/libs/` 目录（可在 Demo 工程的 `app/libs/` 中找到，或从 Release 页下载）：
+将 `UM_v1.3.0.aar` 放入 `app/libs/` 目录（可在 Demo 工程的 `app/libs/` 中找到，或从 Release 页下载）：
 
 ```groovy
 // app/build.gradle
 dependencies {
     // 优盟广告 SDK
-    implementation files('libs/UM_v1.2.0.aar')
+    implementation files('libs/UM_v1.3.0.aar')
 
     // 基础依赖
     implementation 'androidx.appcompat:appcompat:1.0.0'
