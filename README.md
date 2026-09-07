@@ -253,32 +253,77 @@ UMAD.setFreqRule(FreqCapper.TYPE_BANNER, 0, 60, 30);        // 横幅：每小�
 
 ### 1. 引入 SDK
 
-将 `UM_v1.4.0.aar` 放入 `app/libs/` 目录（可在 Demo 工程的 `app/libs/` 中找到，或从 Release 页下载）：
+SDK 按平台模块化拆分，放在 `adn/` 目录下，每个平台独立目录：
+
+```
+adn/
+├── csj/          # 穿山甲
+│   ├── libs/     # 平台 AAR
+│   └── deps.gradle
+├── ylh/          # 优量汇
+├── ks/           # 快手
+├── bd/           # 百度
+├── st/           # 上推
+├── sm/           # Sigmob
+├── jd/           # 京东
+├── tk/           # 铁扇
+├── mm/           # 小米米盟
+├── ly/           # 荣耀
+├── ag/           # 安可信
+├── dm/           # 多盟
+├── fw/           # 峰瑞
+├── bz/           # 倍孜
+├── sf/           # 顺风
+├── fs/           # 风行
+├── zy/           # 智云
+├── ky/           # 开域
+├── ms/           # 陌陌/美数
+└── oaid/         # OAID 补充库
+```
+
+**步骤：**
+
+1. 将 `adn/` 目录复制到你的工程根目录
+2. 在根 `build.gradle` 中配置 flatDir：
 
 ```groovy
-// app/build.gradle
-dependencies {
-    // 优盟广告 SDK
-    implementation files('libs/UM_v1.4.0.aar')
+// 根 build.gradle
+allprojects {
+    repositories {
+        google()
+        // ... 其他仓库
 
-    // 基础依赖
-    implementation 'androidx.appcompat:appcompat:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'com.google.android.material:material:1.6.0'
-
-    // 接入的广告平台 SDK（按需引入，以穿山甲 + 瑞狮为例）
-    implementation files('libs/CSJ_v7.4.2.0.aar')     // 穿山甲
-    implementation files('libs/OAID_v1.0.25.aar')     // OAID（穿山甲依赖）
-
-    // 瑞狮 SDK
-    implementation('cn.vlion.inland:vlion-core-ec:7.00.81') {
-        exclude group: 'cn.vlion.inland', module: 'vlion-j'
-        exclude group: 'cn.vlion.inland', module: 'vlion-wm-sdk'
+        // adn 平台 AAR 目录（按需添加）
+        flatDir {
+            dirs "${rootProject.projectDir}/adn/csj/libs"
+            dirs "${rootProject.projectDir}/adn/ylh/libs"
+            // ... 其他平台
+        }
     }
 }
 ```
 
-> 💡 **按需引入平台 SDK**：SDK 内部聚合了多家广告平台，`ad_config.json` 里配置了哪些平台，就引入对应平台的 SDK。用不到的平台无需引入，控制包体大小。
+3. 在 `app/build.gradle` 中按需引入平台：
+
+```groovy
+// app/build.gradle
+// 核心 SDK（必选）
+implementation files('libs/UM_v1.4.0.aar')
+
+// 按需引入广告平台（取消注释即可启用）
+apply from: '../adn/csj/deps.gradle'    // 穿山甲
+// apply from: '../adn/ylh/deps.gradle'  // 优量汇
+// apply from: '../adn/ks/deps.gradle'   // 快手
+// apply from: '../adn/bd/deps.gradle'   // 百度
+// ... 更多平台
+
+// 基础依赖
+implementation 'androidx.appcompat:appcompat:1.0.0'
+implementation 'androidx.recyclerview:recyclerview:1.0.0'
+implementation 'com.google.android.material:material:1.6.0'
+```
+
+> 💡 **按需引入平台 SDK**：SDK 内部聚合了多家广告平台，`ad_config.json` 里配置了哪些平台，就 `apply from` 对应平台的 `deps.gradle`。用不到的平台无需引入，控制包体大小。
 
 ### 2. 配置广告位
 

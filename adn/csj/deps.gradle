@@ -1,0 +1,6 @@
+// ========== csj 平台 SDK 依赖（穿山甲） ==========
+// 在 app/build.gradle 中使用：apply from: '../adn/csj/deps.gradle'
+
+dependencies {
+    implementation(name: 'CSJ_v7.7.1.6', ext: 'aar')
+}

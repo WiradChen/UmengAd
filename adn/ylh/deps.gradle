@@ -1,0 +1,6 @@
+// ========== ylh 平台 SDK 依赖（优量汇/腾讯广点通） ==========
+// 在 app/build.gradle 中使用：apply from: '../adn/ylh/deps.gradle'
+
+dependencies {
+    implementation(name: 'GDT_v4.701.1571', ext: 'aar')
+}

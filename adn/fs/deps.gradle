@@ -1,0 +1,6 @@
+// ========== fs 平台 SDK 依赖（风行/飞天） ==========
+// 在 app/build.gradle 中使用：apply from: '../adn/fs/deps.gradle'
+
+dependencies {
+    implementation(name: 'FS_v1.0.95.01', ext: 'aar')
+}

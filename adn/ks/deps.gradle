@@ -1,0 +1,6 @@
+// ========== ks 平台 SDK 依赖（快手） ==========
+// 在 app/build.gradle 中使用：apply from: '../adn/ks/deps.gradle'
+
+dependencies {
+    implementation(name: 'KS_v5.7.20.1', ext: 'aar')
+}

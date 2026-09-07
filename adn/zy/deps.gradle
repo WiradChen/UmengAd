@@ -1,0 +1,6 @@
+// ========== zy 平台 SDK 依赖（智云/掌云） ==========
+// 在 app/build.gradle 中使用：apply from: '../adn/zy/deps.gradle'
+
+dependencies {
+    implementation(name: 'ZY_v2.6.3.16', ext: 'aar')
+}

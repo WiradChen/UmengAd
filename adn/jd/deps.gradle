@@ -1,0 +1,6 @@
+// ========== jd 平台 SDK 依赖（京东） ==========
+// 在 app/build.gradle 中使用：apply from: '../adn/jd/deps.gradle'
+
+dependencies {
+    implementation(name: 'JD_v2.6.32', ext: 'aar')
+}

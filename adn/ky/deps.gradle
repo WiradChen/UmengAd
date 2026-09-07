@@ -1,0 +1,6 @@
+// ========== ky 平台 SDK 依赖（开域） ==========
+// 在 app/build.gradle 中使用：apply from: '../adn/ky/deps.gradle'
+
+dependencies {
+    implementation(name: 'KY_v5.0.3', ext: 'aar')
+}

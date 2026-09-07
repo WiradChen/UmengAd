@@ -1,0 +1,6 @@
+// ========== ms 平台 SDK 依赖（陌陌/美图） ==========
+// 在 app/build.gradle 中使用：apply from: '../adn/ms/deps.gradle'
+
+dependencies {
+    implementation(name: 'MS_v2.5.11.0', ext: 'aar')
+}

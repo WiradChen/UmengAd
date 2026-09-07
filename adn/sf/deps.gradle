@@ -1,0 +1,6 @@
+// ========== sf 平台 SDK 依赖（顺风/搜狐） ==========
+// 在 app/build.gradle 中使用：apply from: '../adn/sf/deps.gradle'
+
+dependencies {
+    implementation(name: 'SF_v2.3.0', ext: 'aar')
+}

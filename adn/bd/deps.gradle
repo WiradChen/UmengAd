@@ -1,0 +1,6 @@
+// ========== bd 平台 SDK 依赖（百度百青藤） ==========
+// 在 app/build.gradle 中使用：apply from: '../adn/bd/deps.gradle'
+
+dependencies {
+    implementation(name: 'BD_v9.460', ext: 'aar')
+}

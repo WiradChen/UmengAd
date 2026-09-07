@@ -1,0 +1,6 @@
+// ========== ly 平台 SDK 依赖（荣耀） ==========
+// 在 app/build.gradle 中使用：apply from: '../adn/ly/deps.gradle'
+
+dependencies {
+    implementation(name: 'LY_v3.1.33', ext: 'aar')
+}

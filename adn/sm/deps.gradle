@@ -1,0 +1,7 @@
+// ========== sm 平台 SDK 依赖（Sigmob） ==========
+// 在 app/build.gradle 中使用：apply from: '../adn/sm/deps.gradle'
+
+dependencies {
+    implementation(name: 'SM_COMMON_v1.9.6', ext: 'aar')
+    implementation(name: 'SM_v4.25.11', ext: 'aar')
+}

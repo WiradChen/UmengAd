@@ -1,0 +1,6 @@
+// ========== ag 平台 SDK 依赖（安可信/奥吉尔） ==========
+// 在 app/build.gradle 中使用：apply from: '../adn/ag/deps.gradle'
+
+dependencies {
+    implementation(name: 'AG_v4.2.6.6', ext: 'aar')
+}

@@ -44,12 +44,53 @@ android {
     }
 }
 
-dependencies {
-    // SDK 依赖的第三方广告源库（已复制到 app/libs/，demo 自包含）
-    // 按需引入：demo 使用穿山甲 CSJ + 瑞狮 vlion
-    // 注：AAR 内 compileOnly，需在应用侧提供对应平台 SDK
-    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])  // 直接依赖整个 libs 文件夹
+// ========== 广告平台 SDK 按需引入 ==========
+// 取消注释对应平台的 apply from 即可启用该平台
+// 穿山甲（默认启用）
+apply from: '../adn/csj/deps.gradle'
+// 优量汇
+// apply from: '../adn/ylh/deps.gradle'
+// 快手
+// apply from: '../adn/ks/deps.gradle'
+// 百度
+// apply from: '../adn/bd/deps.gradle'
+// 上推
+// apply from: '../adn/st/deps.gradle'
+// Sigmob
+// apply from: '../adn/sm/deps.gradle'
+// 京东
+// apply from: '../adn/jd/deps.gradle'
+// 铁扇
+// apply from: '../adn/tk/deps.gradle'
+// 小米米盟
+// apply from: '../adn/mm/deps.gradle'
+// 荣耀
+// apply from: '../adn/ly/deps.gradle'
+// 安可信
+// apply from: '../adn/ag/deps.gradle'
+// 多盟
+// apply from: '../adn/dm/deps.gradle'
+// 峰瑞
+// apply from: '../adn/fw/deps.gradle'
+// 倍孜
+// apply from: '../adn/bz/deps.gradle'
+// 顺风
+// apply from: '../adn/sf/deps.gradle'
+// 风行
+// apply from: '../adn/fs/deps.gradle'
+// 智云
+// apply from: '../adn/zy/deps.gradle'
+// 开域
+// apply from: '../adn/ky/deps.gradle'
+// 陌陌
+// apply from: '../adn/ms/deps.gradle'
+// OAID 补充库（需要时启用）
+// apply from: '../adn/oaid/deps.gradle'
 
+dependencies {
+    // 核心 SDK（必选）
+    implementation(name: 'UM_v1.4.0', ext: 'aar')
+    // ========== 第三方依赖 ==========
     // 基础支持库
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'

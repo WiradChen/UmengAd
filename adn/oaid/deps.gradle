@@ -1,0 +1,6 @@
+// ========== oaid 平台 SDK 依赖（OAID 补充库） ==========
+// 在 app/build.gradle 中使用：apply from: '../adn/oaid/deps.gradle'
+
+dependencies {
+    implementation(name: 'OAID_v1.0.25', ext: 'aar')
+}

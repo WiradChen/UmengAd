@@ -1,0 +1,12 @@
+// ========== tk 平台 SDK 依赖（铁扇） ==========
+// 在 app/build.gradle 中使用：apply from: '../adn/tk/deps.gradle'
+
+dependencies {
+    implementation(name: 'TK_CHINA_CORE', ext: 'aar')
+    implementation(name: 'TK_CORE', ext: 'aar')
+    implementation(name: 'TK_BANNER', ext: 'aar')
+    implementation(name: 'TK_INTERSTITIAL', ext: 'aar')
+    implementation(name: 'TK_REWARDVIDEO', ext: 'aar')
+    implementation(name: 'TK_NATIVE', ext: 'aar')
+    implementation(name: 'TK_SPLASH', ext: 'aar')
+}

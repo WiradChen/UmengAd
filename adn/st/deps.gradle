@@ -1,0 +1,6 @@
+// ========== st 平台 SDK 依赖（上推/Advista） ==========
+// 在 app/build.gradle 中使用：apply from: '../adn/st/deps.gradle'
+
+dependencies {
+    implementation(name: 'ST_v1.9.6', ext: 'aar')
+}

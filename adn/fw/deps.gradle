@@ -1,0 +1,6 @@
+// ========== fw 平台 SDK 依赖（峰瑞/泛为） ==========
+// 在 app/build.gradle 中使用：apply from: '../adn/fw/deps.gradle'
+
+dependencies {
+    implementation(name: 'FW_v2.9.50', ext: 'aar')
+}

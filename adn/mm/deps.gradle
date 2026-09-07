@@ -1,0 +1,6 @@
+// ========== mm 平台 SDK 依赖（小米米盟） ==========
+// 在 app/build.gradle 中使用：apply from: '../adn/mm/deps.gradle'
+
+dependencies {
+    implementation(name: 'MM_v7.4.10.0', ext: 'aar')
+}

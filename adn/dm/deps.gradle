@@ -1,0 +1,6 @@
+// ========== dm 平台 SDK 依赖（多盟） ==========
+// 在 app/build.gradle 中使用：apply from: '../adn/dm/deps.gradle'
+
+dependencies {
+    implementation(name: 'DM_v3.7.3', ext: 'aar')
+}

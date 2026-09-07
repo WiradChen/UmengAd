@@ -22,6 +22,31 @@ allprojects {
             url 'http://sdk.mentamob.com/repository/vlion/'
             allowInsecureProtocol = true
         }
+        // 第三方广告平台本地 aar（按平台分目录存放）
+        flatDir {
+            dirs "${rootProject.projectDir}/adn/csj/libs"
+            dirs "${rootProject.projectDir}/adn/ylh/libs"
+            dirs "${rootProject.projectDir}/adn/ks/libs"
+            dirs "${rootProject.projectDir}/adn/bd/libs"
+            dirs "${rootProject.projectDir}/adn/st/libs"
+            dirs "${rootProject.projectDir}/adn/sm/libs"
+            dirs "${rootProject.projectDir}/adn/jd/libs"
+            dirs "${rootProject.projectDir}/adn/tk/libs"
+            dirs "${rootProject.projectDir}/adn/mm/libs"
+            dirs "${rootProject.projectDir}/adn/ly/libs"
+            dirs "${rootProject.projectDir}/adn/ag/libs"
+            dirs "${rootProject.projectDir}/adn/dm/libs"
+            dirs "${rootProject.projectDir}/adn/fw/libs"
+            dirs "${rootProject.projectDir}/adn/bz/libs"
+            dirs "${rootProject.projectDir}/adn/sf/libs"
+            dirs "${rootProject.projectDir}/adn/fs/libs"
+            dirs "${rootProject.projectDir}/adn/zy/libs"
+            dirs "${rootProject.projectDir}/adn/ky/libs"
+            dirs "${rootProject.projectDir}/adn/ms/libs"
+            dirs "${rootProject.projectDir}/adn/oaid/libs"
+            // 核心 SDK AAR
+            dirs "${rootProject.projectDir}/app/libs"
+        }
     }
 }
 
