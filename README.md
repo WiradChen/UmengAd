@@ -161,7 +161,10 @@ AdPerfData data = AdOptimizer.getPerfData("广告位ID", "CSJ");
 
 SDK 聚合了 20+ 家平台，每家平台各自有独立的频控设置。如果只配各家平台自己的频控，用户实际看到的次数会**叠加超标**（例：穿山甲每天 10 次 + 快手每天 10 次 = 实际 20 次）。统一频控由 SDK 在最顶层管一个**总计数器**，所有广告源共享，总量达标就整体拦截。
 
-**默认规则**（不配置则生效）：
+> ⚠️ **频控默认关闭**，需显式调用 `UMAD.setFreqEnabled(true)` 开启。
+> 频控在 `load()` 请求前判断，超限直接回调 `onNoAd(5001, "已达频控上限")`，不会发起广告请求。
+
+**默认规则**（开启后若不自定义则生效）：
 
 | 广告位类型 | 每日上限 | 最小间隔 | 每小时上限 |
 |------------|:---:|:---:|:---:|
@@ -172,20 +175,50 @@ SDK 聚合了 20+ 家平台，每家平台各自有独立的频控设置。如�
 | 全屏 fullscreen | 5 | 180秒 | - |
 | 信息流 feed | - | 60秒 | 20 |
 
-**自定义配置**（可选，覆盖默认）：
+**使用方式**：
 
 ```java
-// 在初始化后调用
-AdOptimizer.setFreqCap(AdOptimizer.TYPE_SPLASH, 2, 10, 0);        // 开屏：每天2次，最小间隔10秒
-AdOptimizer.setFreqCap(AdOptimizer.TYPE_REWARD, 10, 0, 0);        // 激励视频：每天10次
-AdOptimizer.setFreqCap(AdOptimizer.TYPE_INTERSTITIAL, 5, 180, 0); // 插屏：每天5次，最小间隔180秒
-AdOptimizer.setFreqCap(AdOptimizer.TYPE_BANNER, 0, 60, 20);       // 横幅：每小时20次，最小间隔60秒
+// 1. 初始化
+UMAD.init(this);
+
+// 2. 开启频控（默认关闭）
+UMAD.setFreqEnabled(true);
+
+// 3. 自定义规则（可选，覆盖默认值）
+// 参数：类型, 每天次数, 最小间隔秒, 每小时次数（传 0 表示不限制）
+UMAD.setFreqRule(FreqCapper.TYPE_SPLASH, 3, 30, 0);        // 开屏：每天3次，间隔30秒
+UMAD.setFreqRule(FreqCapper.TYPE_INTERSTITIAL, 10, 60, 0);  // 插屏：每天10次，间隔60秒
+UMAD.setFreqRule(FreqCapper.TYPE_REWARD, 20, 0, 0);         // 激励视频：每天20次
+UMAD.setFreqRule(FreqCapper.TYPE_BANNER, 0, 60, 30);        // 横幅：每小时30次，间隔60秒
 ```
 
 - `maxPerDay`：每天最多展示次数，`<=0` 表示不限制
 - `minIntervalSec`：两次展示最小间隔秒数，`<=0` 表示不限制
 - `maxPerHour`：每小时最多展示次数，`<=0` 表示不限制
-- 超限时 SDK 回调 `onNoAd(5001, "已达频控上限")`，不会展示广告
+- 超限时 SDK 回调 `onNoAd(5001, "已达频控上限")`
+
+**类型常量**（`FreqCapper` 类中）：
+
+| 常量 | 对应广告类型 |
+|------|-------------|
+| `TYPE_SPLASH` | 开屏 |
+| `TYPE_BANNER` | 横幅 |
+| `TYPE_INTERSTITIAL` | 插屏 |
+| `TYPE_REWARD` | 激励视频 |
+| `TYPE_FULLSCREEN` | 全屏视频 |
+| `TYPE_FEED` | 信息流 |
+
+---
+
+## 更新日志
+
+### v1.4.0 (2026-09-07)
+
+- ✅ **AdInfoBean 扁平化**：去掉 `AdpParams` 嵌套类，字段提平级，结构更简洁
+- ✅ **固价配置（adpPrice）参与比价**：配置了 `adpPrice` 的平台用配置价参与竞价，没配置的用 SDK 实时 eCPM
+- ✅ **比价日志优化**：区分「固定eCPM」和「实时eCPM」，调试更清晰
+- ✅ **频控优化**：默认关闭，需显式开启；拦截点从 show 前移到 load，不浪费广告请求；开放 `UMAD.setFreqEnabled/setFreqRule` API
+- ✅ **6 大广告类型全部统一**：开屏/横幅/插屏/激励视频/全屏/信息流 行为一致
 
 ---
 
@@ -220,13 +253,13 @@ AdOptimizer.setFreqCap(AdOptimizer.TYPE_BANNER, 0, 60, 20);       // 横幅：�
 
 ### 1. 引入 SDK
 
-将 `UM_v1.3.0.aar` 放入 `app/libs/` 目录（可在 Demo 工程的 `app/libs/` 中找到，或从 Release 页下载）：
+将 `UM_v1.4.0.aar` 放入 `app/libs/` 目录（可在 Demo 工程的 `app/libs/` 中找到，或从 Release 页下载）：
 
 ```groovy
 // app/build.gradle
 dependencies {
     // 优盟广告 SDK
-    implementation files('libs/UM_v1.3.0.aar')
+    implementation files('libs/UM_v1.4.0.aar')
 
     // 基础依赖
     implementation 'androidx.appcompat:appcompat:1.0.0'
