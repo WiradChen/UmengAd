@@ -1,0 +1,11 @@
+// ========== hw 华为广告 SDK 依赖 ==========
+// 在 app/build.gradle 中使用：apply from: '../adn/hw/deps.gradle'
+// 华为走 maven 远程依赖，无需本地 aar
+
+repositories {
+    maven { url 'https://developer.huawei.com/repo/' }
+}
+
+dependencies {
+    implementation 'com.huawei.hms:ads-lite:13.4.78.301'
+}

@@ -60,30 +60,34 @@ apply from: '../adn/csj/deps.gradle'
 // apply from: '../adn/sm/deps.gradle'
 // 京东
 // apply from: '../adn/jd/deps.gradle'
-// 铁扇
+// 塔酷
 // apply from: '../adn/tk/deps.gradle'
-// 小米米盟
+// 脉盟
 // apply from: '../adn/mm/deps.gradle'
-// 荣耀
+// 掌上乐游
 // apply from: '../adn/ly/deps.gradle'
-// 安可信
+// 数字悦动
 // apply from: '../adn/ag/deps.gradle'
 // 多盟
 // apply from: '../adn/dm/deps.gradle'
-// 峰瑞
+// 泛为
 // apply from: '../adn/fw/deps.gradle'
 // 倍孜
 // apply from: '../adn/bz/deps.gradle'
-// 顺风
+// 舜飞
 // apply from: '../adn/sf/deps.gradle'
-// 风行
+// 飞梭
 // apply from: '../adn/fs/deps.gradle'
-// 智云
+// 章鱼
 // apply from: '../adn/zy/deps.gradle'
-// 开域
+// 快友
 // apply from: '../adn/ky/deps.gradle'
-// 陌陌
+// 美数
 // apply from: '../adn/ms/deps.gradle'
+// 惊鸿动能（华为）
+// apply from: '../adn/hw/deps.gradle'
+// 瑞狮
+// apply from: '../adn/rs/deps.gradle'
 // OAID 补充库（需要时启用）
 // apply from: '../adn/oaid/deps.gradle'
 
@@ -111,10 +115,4 @@ dependencies {
     implementation "pl.droidsonroids.gif:android-gif-drawable:1.2.6"
     implementation "com.android.support.constraint:constraint-layout:2.0.4"
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android:6.8.0'
-
-    // 瑞狮 SDK（AdCore compileOnly，自带华为 hwsdk）
-    implementation('cn.vlion.inland:vlion-core-ec:7.00.81') {
-        exclude group: 'cn.vlion.inland', module: 'vlion-j'
-        exclude group: 'cn.vlion.inland', module: 'vlion-wm-sdk'
-    }
 }

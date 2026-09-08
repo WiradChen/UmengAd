@@ -1,0 +1,14 @@
+// ========== rs 瑞狮广告 SDK 依赖 ==========
+// 在 app/build.gradle 中使用：apply from: '../adn/rs/deps.gradle'
+// 瑞狮走 maven 远程依赖，无需本地 aar
+
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation('cn.vlion.inland:vlion-core-ec:7.00.81') {
+        exclude group: 'cn.vlion.inland', module: 'vlion-j'
+        exclude group: 'cn.vlion.inland', module: 'vlion-wm-sdk'
+    }
+}
